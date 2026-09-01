@@ -1,0 +1,18 @@
+/* Copyright 2026 Premier Cosmetic - License AGPL-3.0 */
+
+.pos-pricelist-banner {
+    background-color: #eef4ff;
+    color: #1a4fb4;
+    font-size: 0.95rem;
+}
+
+.pos-pricelist-discount .pl-old-price {
+    color: #888;
+    margin-right: 0.4rem;
+}
+
+.pos-pricelist-discount .pl-discount {
+    color: #c0392b;
+    font-style: normal;
+    font-weight: bolder;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Premier Cosmetic - License AGPL-3.0 -->
+<odoo>
+    <record id="res_config_settings_view_form_pricelist_discount" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='pos-loyalty']" position="after">
+                <setting
+                    id="pos_display_pricelist_discount"
+                    help="Muestra el precio original (tarifa base) tachado y el % de descuento en cada línea del TPV."
+                >
+                    <field name="pos_iface_display_pricelist_discount" />
+                </setting>
+                <setting
+                    id="pos_display_pricelist_name"
+                    help="Muestra la tarifa aplicada en la parte superior de las líneas del ticket del TPV."
+                >
+                    <field name="pos_iface_display_pricelist_name" />
+                </setting>
+                <setting
+                    id="pos_base_discount_button"
+                    help="Añade un botón para aplicar a la línea seleccionada un descuento sobre el precio base de la tarifa, sin cálculos manuales."
+                >
+                    <field name="pos_iface_base_discount_button" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

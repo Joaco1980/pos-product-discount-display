@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Premier Cosmetic - License AGPL-3.0 -->
+<templates id="template" xml:space="preserve">
+
+    <!-- Banner con la tarifa aplicada -->
+    <t t-name="pos_pricelist_discount_display.PricelistBanner">
+        <t t-set="_plName" t-value="getPricelistName()" />
+        <div
+            t-if="_plName"
+            class="pos-pricelist-banner d-flex align-items-center gap-2 px-3 py-2 border-bottom fw-bolder"
+        >
+            <i class="fa fa-tags" role="img" aria-label="Tarifa" title="Tarifa" />
+            <span>Tarifa: <t t-esc="_plName" /></span>
+        </div>
+    </t>
+
+    <!-- Insertamos el banner arriba de las lineas, dentro de la zona blanca -->
+    <t t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('order-container')]" position="before">
+            <t t-if="!props.screenName">
+                <PricelistBanner />
+            </t>
+        </xpath>
+    </t>
+
+    <!-- Boton "Descuento sobre base" en los botones de control del TPV -->
+    <t
+        t-inherit="point_of_sale.ControlButtons"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//OrderlineNoteButton" position="after">
+            <button
+                t-if="pos.config.iface_base_discount_button"
+                t-att-class="buttonClass"
+                t-att-disabled="!pos.get_order()?.get_selected_orderline()"
+                t-on-click="() => this.clickBaseDiscount()"
+            >
+                <i class="fa fa-percent me-1" />Desc. base
+            </button>
+        </xpath>
+    </t>
+
+    <!-- Precio original tachado + % de descuento de la tarifa en cada linea -->
+    <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//li[hasclass('price-per-unit')]" position="after">
+            <li t-if="line.plShowDiscount" class="pos-pricelist-discount">
+                <s class="pl-old-price" t-esc="line.plOriginalUnitPrice" />
+                <em class="pl-discount">
+                    -<t t-esc="line.plDiscountStr" />% tarifa
+                </em>
+            </li>
+        </xpath>
+    </t>
+
+</templates>
